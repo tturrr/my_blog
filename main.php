@@ -52,21 +52,12 @@ session_start();
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
     <script language="javascript">
-
-
-
     function checkemail(_emailinfo){
-
     	// check email type.
-
     	if("" == _emailinfo){
-
-    		alert("전자 메일 정보를 입력해 주세요!");
-
+    		alert("이메일 정보를 입력해 주세요!");
     		return false;
-
     	}
-
     	// Need to suplement the empty string check code.
 
     	return true;
@@ -132,7 +123,10 @@ session_start();
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="index.php">myBlog</a>
+        <a class="navbar-brand" href="index.php">
+          <?php if(isset($_SESSION['testuser'])){
+         echo $_SESSION['testuser'].'님의 블로그';
+       }else { echo '블로그'; }?></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
@@ -195,7 +189,7 @@ session_start();
 
                             <?php
 
-                            	if($_SESSION["testuser"])
+                            	if($_SESSION['testuser'])
 
                             	{
                             	?>
@@ -206,7 +200,7 @@ session_start();
 
                             		<label>이메일</label><br>
 
-                            			<input type="text" name="identification" value="">@<input align="left" type="text" name="emailcompany" value=""> <br>
+                                    <input type="text" name="identification" value="">@<input align="left" type="text" name="emailcompany" value=""> <br>
 
                             		<label>비밀번호</label><br>
 
@@ -214,7 +208,8 @@ session_start();
 
                             	</form>
 
-                            	<form id="membershipform" action="http://13.125.107.155/register.php" method="post"> </form>
+                            	<form id="membershipform" action="http://13.125.107.155/register.php" method="post">
+                               </form>
 
                             	<?php } ?>
 
@@ -235,9 +230,7 @@ session_start();
                             	?>
 
                             	<input type="button" value="로그 아웃하기" onclick="location.href='login_action.php?logout=yes';" />
-
                             	<?php } else { ?>
-
                             	<input type="button" onclick="SubmitLogin()" value="로그인하기" />
 
                             	<input type="button" onclick="submitMembership()" value="회원 가입하기" />
@@ -277,6 +270,7 @@ session_start();
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery.backstretch.min.js"></script>
     <script src="assets/js/scripts.js"></script>
+
 
   </body>
 

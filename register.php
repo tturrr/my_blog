@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <!DOCTYPE php>
 <php lang="en">
 
@@ -39,7 +42,148 @@
     <!-- google fonts -->
     <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
     <!-- google fonts -->
+    <script>
 
+
+
+    function checkPassword(){
+
+    	var p1 = document.getElementById("personalPwd");
+
+    	var p2 = document.getElementById("personalPwdvalidate");
+
+    	if(p1.value != p2.value)	return false;
+
+    	else	return true;
+
+    }
+
+
+
+    function submitBack(){
+
+    	// To make sure, to let this user to be reached to the default main page.
+
+    	<?php
+
+    		session_unset();
+
+    	?>
+
+    	location.href='main.php';
+
+    }
+
+
+
+    function submitForm(){
+
+    	// 1. Check whether the email info is valid.
+
+    	// 2. Check if the id info is not empty.
+
+    	// 3. Check the password that the value what user want to use.
+
+    	var _submit = document.getElementById("membershipform");
+
+    	null_isthere = -1;
+
+    	for(var i=0; i < _submit.length; i++){
+
+    		if("" == _submit.elements[i].value)
+
+    			null_isthere = i;
+
+    	}
+
+    	if("-1" != null_isthere){
+
+    		switch(null_isthere){
+
+    		case 0:
+
+    			alert("이메일을 입력해 주세요");
+
+    			break;
+
+    		case 1:
+
+    			alert("이메일 정보를 입력해 주세요");
+
+    			break;
+
+    		case 2:
+
+    			alert("아이디를 입력해 주세요");
+
+    			break;
+
+    		case 3:
+
+    			alert("비밀번호를 입력해 주세요");
+
+    			break;
+
+    		case 4:
+
+    			alert("비밀번호를 다시 한번 더 입력 해 주세요");
+
+    			break;
+
+    		}
+
+    	}else{
+
+    		if(checkPassword())
+
+    			_submit.submit();
+
+    		else
+
+    			alert("비밀번호를 확인해 주세요")
+
+    	}
+
+    }
+
+
+
+    function checkDupID()
+
+    {
+
+
+
+    	var p1 = document.getElementById("personalNickname");
+
+    	if(!p1.value){
+
+    		alert("사용하실 아이디를 입력해 주세요.");
+
+    		p1.focus();
+
+    		return;
+
+    	}else{
+
+
+    		ref = "idcheck.php";
+
+    		ref = ref + "?checkid="+p1.value;
+
+    		var window_left = (screen.width - 640)/2;
+
+    		var window_top = (screen.height  - 480)/2;
+
+    		//window.open(ref);
+
+    		window.open(ref, "checkIDWin", 'width=500, height=160, status=no, top='+window_top+', left='+window_left+'');
+
+    	}
+
+    }
+
+    </script>
 
   </head>
 
@@ -96,57 +240,56 @@
     		<div class="main" >
     				<div class="w3layouts_main_grid" >
     				<h1 class="w3layouts_head">회원가입</h1>
-    					<form action="#" method="post" class="w3_form_post">
-    						<div class="w3_agileits_main_grid w3l_main_grid">
-    							<span class="agileits_grid">
-    								<label>이름 <span class="star">*</span></label>
-    								<input type="text" name="Task"  required="">
-    							</span>
-    						</div>
-    						<div class="w3_agileits_main_grid w3l_main_grid">
+    					<form id="membershipform" align="left" action="http://13.125.107.155/membership_welcome.php?login=yes" method="post">
+                <div class="w3_agileits_main_grid w3l_main_grid">
+                  <span class="agileits_grid">
+                    <label>이메일 <span class="star">*</span></label>
+                    <input id="emailid" type="text" name="personalemailid" value="">@<input  type="text" name="emailcompany" value="" style="margin-left:131px">
+                  </span>
+                </div>
+                <div class="w3_agileits_main_grid w3l_main_grid">
     							<span class="agileits_grid">
     								<label>닉네임 <span class="star">*</span></label>
-    								<input type="text" name="Task"  required="">
+    								<input id="personalNickname" type="text" name="nickname"  required=""> <input type="button" onclick="checkDupID()" value="중복 검사"/>
     							</span>
     						</div>
-    						<div class="w3_agileits_main_grid w3l_main_grid">
-    							<span class="agileits_grid">
-    								<label>이메일 <span class="star">*</span></label>
-    								<input type="email" id="email" name="Task" required="">
-    							</span>
-    						 <button type="button" onclick="email_chk()">이메일 인증</button>
-    						</div>
-    						<div class="w3_agileits_main_grid w3l_main_grid">
-    							<span class="agileits_grid">
-    								<label>핸드폰 번호 <span class="star">*</span></label>
-    								<input type="text" name="Task"  required="">
-    							</span>
-    						</div>
+                <div class="w3_agileits_main_grid w3l_main_grid">
+                  <span class="agileits_grid">
+                    <label>비밀번호 <span class="star">*</span></label>
+                    <input type="text" name="pwd"  id="personalPwd" required="">
+                  </span>
+                </div>
+                <div class="w3_agileits_main_grid w3l_main_grid">
+                  <span class="agileits_grid">
+                    <label>비밀번호 확인<span class="star">*</span></label>
+                    <input type="text" name="pwdvalidate" id="personalPwdvalidate" required="">
+                  </span>
+                </div>
     						<div class="w3_agileits_main_grid w3l_main_grid">
     							<span class="agileits_grid">
     								<label>주소<span class="star">*</span></label>
     									<div class="form-input add">
     										<span class="form-sub-label line1">
-    											<input type="text" id="first_address" name="street_address" placeholder="주소" required="" onclick="address()">
+    											<input type="text" id="first_address" name="street_address"  required="" onclick="address()">
 
     										</span>
     										<span class="form-sub-label line2">
-    											<input type="text"id="second_address" name="street_address2" placeholder="상세주소 " required="">
+    											<input type="text"id="second_address" name="street_address2"  required="">
     										</span>
     										<div class="clear"></div>
     									</div>
     									<div class="clear"></div>
     							</span>
     						</div>
-
+                </form>
 
 
     					<div class="w3_main_grid">
     						<div class="w3_main_grid_right">
-    							<input type="submit" value="가입 완료">
+                  <input type="button" onclick="submitForm()" value="가입하기" >
+                  <input type="button" onclick="submitBack()" value="되돌아가기">
     						</div>
     					</div>
-    				</form>
     			</div>
     		</div>
     	</div>
@@ -188,7 +331,7 @@ var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[
 
 if (email.match(regExp) != null) {
   alert("이메일이 발송되었습니다.");
-  node node.js  
+  node node.js
 }
 else {
         alert("이메일을 다시 입력해주세요.")

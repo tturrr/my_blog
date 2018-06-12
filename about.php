@@ -1,3 +1,11 @@
+<?php
+
+	session_start();
+ include "dbConnect.php";
+
+
+?>
+
 <!DOCTYPE php>
 <php lang="en">
 
@@ -28,7 +36,10 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="index.php">Start Bootstrap</a>
+        <a class="navbar-brand" href="index.php">
+          <?php if(isset($_SESSION['testuser'])){
+         echo $_SESSION['testuser'].'님의 블로그';
+       }else { echo '블로그'; }?></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
@@ -47,9 +58,14 @@
             <li class="nav-item">
               <a class="nav-link" href="contact.php">Contact</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="register.php">회원가입</a>
-            </li>
+            <?php
+            if(isset($_SESSION['testuser'])){
+
+              echo  "<li class='nav-item'><a class='nav-link' onclick='logout();' href='#'>로그아웃</a></li> ";
+            }else {
+              echo "<li class='nav-item'><a class='nav-link' href='main.php'>로그인</a></li> ";
+            }
+              ?>
           </ul>
         </div>
       </div>
@@ -126,7 +142,11 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/clean-blog.min.js"></script>
-
+    <script>
+    function logout(){
+    location.href='login_action.php?logout=yes';
+    }
+    </script>
   </body>
 
 </php>
