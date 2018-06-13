@@ -21,7 +21,7 @@ session_cache_limiter('nocache, must-revalidate');
 
 <script type="text/javascript">
 
-
+//로컬스토리지를 사용하여 화면을 로드하는 방법.
 (function()
 {
   if( window.localStorage )
@@ -114,7 +114,7 @@ function CHECKCODE()
 
 		?>
 
-		alert('로그아웃 성공');
+		alert('로그아웃 하였습니다.');
 
 		location.href='main.php';
 

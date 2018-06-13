@@ -28,8 +28,10 @@
 
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
-
-  </head>
+		<script>
+		history.replaceState("object or string", "title", "about.php?<?php echo $_SESSION['testuser'];?>?<?php echo $_GET['b_no']; ?>");
+		</script>
+	</head>
 
   <body>
 
@@ -72,35 +74,51 @@
     </nav>
 
     <!-- Page Header -->
-    <header class="masthead" style="background-image: url('img/about-bg.jpg')">
+    <header class="masthead" style="height:50%; width:80%; margin-left: auto;margin-right: auto; background-image: url('img/about-bg.jpg');">
       <div class="overlay"></div>
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="page-heading">
-              <h1>About Me</h1>
-              <span class="subheading">This is what I do.</span>
-            </div>
+
           </div>
         </div>
       </div>
     </header>
 
     <!-- Main Content -->
+
+
     <div class="container">
+
+
+
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consequuntur magnam, excepturi aliquid ex itaque esse est vero natus quae optio aperiam soluta voluptatibus corporis atque iste neque sit tempora!</p>
+					<div class="clear">
+						 <?php
+            if(isset($_SESSION['testuser'])){?>
+							<form method="post" action="http://13.125.107.155/write_board.php?<?php echo $_SESSION['testuser']?>">
+
+								<input type="submit" value="글 작성하기" />
+							</form>
+							<?php
+            }else {
+
+            }
+              ?>
         </div>
       </div>
     </div>
 
     <hr>
 
-    <!-- Footer -->
-    <footer>
+		<div>
+			<p><?php echo $_GET['title'];?> </p>
+			<p> <?php echo $_GET['contents'];?></p>
+		</div>
+
+  <!-- 풋터 부분은 sns 로그인을위하여 나중에 구현을 위하여 일단은 뺴둔다.
+		  <footer>
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
@@ -134,7 +152,7 @@
           </div>
         </div>
       </div>
-    </footer>
+    </footer> -->
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>

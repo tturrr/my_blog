@@ -119,7 +119,6 @@ session_start();
   </head>
 
   <body>
-
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
@@ -146,7 +145,7 @@ session_start();
               <a class="nav-link" href="contact.php">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="register.php">회원가입</a>
+              <a class="nav-link" href="main.php">로그인</a>
             </li>
           </ul>
         </div>
@@ -231,8 +230,8 @@ session_start();
 
                             	<input type="button" value="로그 아웃하기" onclick="location.href='login_action.php?logout=yes';" />
                             	<?php } else { ?>
-                            	<input type="button" onclick="SubmitLogin()" value="로그인하기" />
 
+                            	<input type="button" onclick="SubmitLogin()" value="로그인하기" />
                             	<input type="button" onclick="submitMembership()" value="회원 가입하기" />
 
                             	<?php } ?>
@@ -242,8 +241,7 @@ session_start();
                       </div>
                   </div>
                   <div class="row">
-                      <div class="col-sm-6 col-sm-offset-3 social-login">
-                        <h3>.. 비밀번호 찾기:</h3>
+                      <div class="col-sm-6 col-sm-offset-3 social-login" >
 
                       </div>
                   </div>
@@ -256,8 +254,43 @@ session_start();
 
     <hr>
 
-    <!-- Footer -->
 
+    <!-- 풋터 부분은 sns 로그인을위하여 나중에 구현을 위하여 일단은 뺴둔다.
+        <footer>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+              <ul class="list-inline text-center">
+                <li class="list-inline-item">
+                  <a href="#">
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="#">
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="#">
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+            </div>
+          </div>
+        </div>
+      </footer> -->
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
