@@ -124,7 +124,12 @@ session_start();
       <div class="container">
         <a class="navbar-brand" href="index.php">
           <?php if(isset($_SESSION['testuser'])){
-         echo $_SESSION['testuser'].'님의 블로그';
+            $_nickname = $_SESSION['testuser'];
+             $sqlquery = "SELECT * FROM login WHERE nickname = '$_nickname'";
+             $queryresult = mysqli_query($con, $sqlquery);
+             $row = mysqli_fetch_array($queryresult);
+             list($param1, $param2) = explode(':', $row['nickname']);
+             echo $param2.'님의 블로그';
        }else { echo '블로그'; }?></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu

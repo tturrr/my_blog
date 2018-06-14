@@ -22,6 +22,8 @@
 
 <?php
 
+	$_nick = $_POST["nickID"];
+
 	$_usernickname = $_POST["nickname"];
 
 	$sqlquery = "";
@@ -31,8 +33,6 @@
 	$_usednickname = false;
 
 	$bFinalResult = false;
-
-
 
 	$con = mysqli_connect("127.0.0.1", "root", "a1214511", "joeltestdb");
 
@@ -58,6 +58,7 @@
 
 		list($param1, $param2) = explode("=", $query_string);
 		echo "<script>alert($param2)</script>";
+
 		$sqlquery = "SELECT * FROM login WHERE nickname LIKE" . " " . "'" . $param2 . "'";
 
 
@@ -73,7 +74,6 @@
 
 
 		mysqli_close($con);
-
 
 
 		if($param2 != $_tmpgetresult ){

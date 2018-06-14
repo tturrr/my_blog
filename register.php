@@ -85,7 +85,7 @@
     	// 3. Check the password that the value what user want to use.
 
     	var _submit = document.getElementById("membershipform");
-			
+
 
     	null_isthere = -1;
 
@@ -170,7 +170,7 @@
 
     		ref = "idcheck.php";
 
-    		ref = ref + "?checkid="+p1.value;
+    		ref = ref + "?checkid=ID:"+p1.value;
 
     		var window_left = (screen.width - 640)/2;
 
@@ -251,7 +251,7 @@
                 <div class="w3_agileits_main_grid w3l_main_grid">
     							<span class="agileits_grid">
     								<label>닉네임 <span class="star">*</span></label>
-    								<input id="personalNickname" type="text" name="nickname"  required=""> <input type="button" onclick="checkDupID()" value="중복 검사"/>
+    								<input id="personalNickname" type="text" name="nickname" required=""> <input type="button" onclick="checkDupID()" value="중복 검사"/>
     							</span>
     						</div>
                 <div class="w3_agileits_main_grid w3l_main_grid">

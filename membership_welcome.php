@@ -64,12 +64,13 @@ function _sendemail($_emailinfo, $_subject, $_emailmsg, $_header)
 
 
 		// Get the values.
+		$_fixation = "ID:";
 
 		$_emailid = $_POST["personalemailid"];
 
 		$_emailcompany = $_POST["emailcompany"];
 
-		$_usernickname = $_POST["nickname"];
+		$_usernickname = $_fixation.$_POST["nickname"];
 
 		$_setpw = $_POST["pwd"];
 
