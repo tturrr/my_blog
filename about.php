@@ -1,10 +1,21 @@
 <?php
 
 	session_start();
- include "dbConnect.php";
+ include "dbconnect.php";
 
+     $nse_content = $dbConnect->escape_string($_POST['ir1']);
+     $sql = "insert into nse_tb(content)";
+     $sql .= " values ('{$nse_content}')";
+     $res = $dbConnect->query($sql);
 
-?>
+     if($res){
+       ?>
+
+   <?php  } else{
+         echo "fail"; // 디비 입력 실패시 fail표시
+     }
+ ?>
+
 
 <!DOCTYPE php>
 <php lang="en">
@@ -119,8 +130,16 @@
     <hr>
 
 		<div>
-			<p><?php echo $_GET['title'];?> </p>
-			<p> <?php echo $_GET['contents'];?></p>
+			<?php
+			$sql = "SELECT * FROM nse_tb ORDER BY no DESC LIMIT 3";
+	 		$res = $dbConnect->query($sql);
+	 		$showContent = $res->fetch_array(MYSQLI_ASSOC);
+	 		echo $showContent['content'];
+	 ?>
+
+	 <video controls>
+	 	<source src="video.mp4" type="video/mp4" />
+	 </video>
 		</div>
 
   <!-- 풋터 부분은 sns 로그인을위하여 나중에 구현을 위하여 일단은 뺴둔다.

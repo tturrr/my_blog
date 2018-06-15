@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include "dbConnect.php";
+	include "dbconnect.php";
 ?>
 <!DOCTYPE php>
 <php lang="en">
@@ -9,9 +9,12 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
+		<script type="text/javascript" src="./nse_files/js/HuskyEZCreator.js" charset="utf-8"></script>
+		<style>
+		.nse_content{width:1000px;height:500px}
+
+		</style>
     <title>글 작성</title>
 
     <!-- Bootstrap core CSS -->
@@ -64,8 +67,15 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="index.php">    <?php if(isset($_SESSION['testuser'])){
-	         echo $_SESSION['testuser'].'님의 블로그';
+        <a class="navbar-brand" href="index.php">
+					<?php if(isset($_SESSION['testuser'])){
+						$con = mysqli_connect("127.0.0.1", "root", "a1214511", "joeltestdb");
+ 						$_nickname = $_SESSION['testuser'];
+ 						$sqlquery = "SELECT * FROM login WHERE nickname = '$_nickname'";
+ 						$queryresult = mysqli_query($con, $sqlquery);
+ 						$row = mysqli_fetch_array($queryresult);
+ 						list($param1, $param2) = explode(':', $row['nickname']);
+ 						echo $param2.'님의 블로그';
 	       }else { echo '블로그'; }?></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
@@ -113,44 +123,46 @@
 
 
     <!-- Post Content -->
+
     <article >
       <div class="center-container">
     	<div class="banner-dott">
     		<div class="main" >
-    				<div class="w3layouts_main_grid" style="Width: 80%">
+    				<div class="w3layouts_main_grid" style="Width: 70%">
     				<h1 class="w3layouts_head">글 작성</h1>
-    					<form id="membershipform" align="left" action="http://13.125.107.155/about.php?<?php echo $_SESSION['testuser']?>" method="get">
-                <div class="w3_agileits_main_grid w3l_main_grid">
-                  <span class="agileits_grid">
-                    <label>제목 <span class="star">*</span></label>
-                    <input id="test"type="text" name="title" value="">
-                  </span>
-                </div>
-    						<div class="w3_agileits_main_grid w3l_main_grid">
-    							<span class="agileits_grid">
-    								<label>내용<span class="star">*</span></label>
-    									<div class="form-input add">
-    										<span class="form-sub-label line1">
-													<style>
-														textarea.autosize { min-height: 50px; }
-															</style>
-    											<textarea name="contents"class="autosize"> </textarea>
-    										</span>
+						<form enctype='multipart/form-data' name="nse" action="write_update.php" method="post">
+								<input type="text" name="b_title" 	placeholder="제목" />
+								<textarea name="ir1" id="ir1" class="nse_content" ></textarea>
 
-    										<div class="clear"></div>
-    									</div>
-    									<div class="clear"></div>
-    							</span>
-    						</div>
-								<input type="hidden" name="b_no"value="1" />
-                </form>
+								<script type="text/javascript">
+								var oEditors = [];
+								nhn.husky.EZCreator.createInIFrame({
+										oAppRef: oEditors,
+										elPlaceHolder: "ir1",
+										sSkinURI: "./nse_files/SmartEditor2Skin.html",
+										fCreator: "createSEditor2"
+								});
+								function submitContents(elClickedObj) {
+										// 에디터의 내용이 textarea에 적용됩니다.
+										oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+										// 에디터의 내용에 대한 값 검증은 이곳에서 document.getElementById("ir1").value를 이용해서 처리하면 됩니다.
 
+										try {
+												elClickedObj.form.submit();
+										} catch(e) {}
+										}
 
+								</script>
+								<input type="submit" value="작성완료" onclick="submitContents(this)" />
+								<input type="button" onclick="submitBack()" value="되돌아가기">
+								<!-- <form enctype='multipart/form-data' action='upload_ok.php' method='post'> -->
+							<input type='file' name='myfile'>
+						 <!-- </form> -->
+						</form>
     					<div class="w3_main_grid">
     						<div class="w3_main_grid_right">
-									 <input id="btn"type="button" onclick="success()" value="작성완료"/>
                   <!-- <input type="button" onclick="submitForm()" value="첨부파일" > -->
-                  <input type="button" onclick="submitBack()" value="되돌아가기">
+
     						</div>
     					</div>
     			</div>

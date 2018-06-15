@@ -213,7 +213,7 @@
               <a class="nav-link" href="contact.php">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="register.php">회원가입</a>
+              <a class="nav-link" href="main.php">로그인</a>
             </li>
           </ul>
         </div>

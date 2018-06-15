@@ -67,7 +67,7 @@ function CHECKCODE()
 			window.open(ref, "가입_확인_진행", 'width=500, height=160, status=no, top='+window_top+', left='+window_left+'');
 
 			location.href='main.php';
-
+	
 		} else {
 
 			alert("인증 코드가 맞지 않습니다. 다시 확인해 주세요");
