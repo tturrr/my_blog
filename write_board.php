@@ -130,7 +130,7 @@
     		<div class="main" >
     				<div class="w3layouts_main_grid" style="Width: 70%">
     				<h1 class="w3layouts_head">글 작성</h1>
-						<form enctype='multipart/form-data' name="nse" action="write_update.php" method="post">
+						<form enctype="multipart/form-data" name="nse" action="write_update.php" method="post">
 								<input type="text" name="b_title" 	placeholder="제목" />
 								<textarea name="ir1" id="ir1" class="nse_content" ></textarea>
 
@@ -153,10 +153,15 @@
 										}
 
 								</script>
-								<input type="submit" value="작성완료" onclick="submitContents(this)" />
-								<input type="button" onclick="submitBack()" value="되돌아가기">
 								<!-- <form enctype='multipart/form-data' action='upload_ok.php' method='post'> -->
-							<input type='file' name='myfile'>
+										<p>이미지<input type='file'id="b_image" name='b_image'>동영상<input type='file'id="video" name='video' ></p>
+							
+
+
+								<div >
+									<input  type="submit" value="작성완료" onclick="submitContents(this)" />
+									<input  type="button" onclick="submitBack()" value="되돌아가기">
+								</div>
 						 <!-- </form> -->
 						</form>
     					<div class="w3_main_grid">

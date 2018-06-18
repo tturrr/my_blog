@@ -3,8 +3,17 @@
 	session_start();
 
 
+	$con1 = mysqli_connect("127.0.0.1", "root", "a1214511", "joeltestdb");
 
+		$bID = $_GET['bid'];
+	//그래서  구분자로 나누어서 받는다.
+		list($id, $bNo) = explode('=', $bID);
 
+	$sql = 'SELECT b_title, b_contents, b_date, b_hit, nickname, b_image ,video from board where b_no = ' . $bNo;
+
+	$result = mysqli_query($con1, $sql);
+
+	$row = mysqli_fetch_assoc($result)
 
   ?>
 
@@ -94,65 +103,47 @@
 
 
       <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-					<div class="clear">
+
+
 						 <?php
             if(isset($_SESSION['testuser'])){?>
-							<form method="post" action="http://13.125.107.155/write_board.php?<?php echo $_SESSION['testuser']?>">
+							<form name="myForm" style="margin-left:80%;" method="post" action="http://13.125.107.155/write_board.php?<?php echo $_SESSION['testuser']?>">
 
-								<input name="sub" style="margin-left:100%;" type="submit" value="글 작성하기" />
+								<!-- <input name="sub" style="margin-left:100%;" type="submit" value="글 작성하기" /> -->
+								<a name="sub"   href="javascript:document.myForm.submit();">추가</a>
+							  <a href="./write.php?bno=<?php echo $bno?>">수정</a>
+								<a href="./delete.php">삭제</a>
+								<a href="./">목록</a>
 							</form>
 							<?php
             }else {
 
             }
               ?>
-        </div>
-      </div>
+
     </div>
 
     <hr>
 
 		<div>
+		<?php
+		$str = "./";
+		$video = $row['video'];
+		if($video == $str){
 
-	 <?php
-	 //url에 아이디와 번호가 bid라는 걸로 한번에 들어온다.
-	 // 	$bID = $_GET['bid'];
-	 // //그래서  구분자로 나누어서 받는다.
-	 // 	list($id, $bno) = explode('=', $bID);
-	 //
-	 	$con1 = mysqli_connect("127.0.0.1", "root", "a1214511", "joeltestdb");
-	 // 	$sql = "SELECT b_title, b_contents, b_date, b_hit, nickname from board where b_no = ".$bno;
-	 //   $queryresult = mysqli_query($con1, $sql);
-	 // 	$row = mysqli_fetch_assoc($queryresult);
-
-	 $sql = 'SELECT * from board order by b_no desc';
-
-	 						$result = mysqli_query($con1, $sql);
-
-	 						while($row = mysqli_fetch_assoc($result))
-
-	 						{
-
-	 							$datetime = explode(' ', $row['b_date']);
-
-	 							$date = $datetime[0];
-
-	 							$time = $datetime[1];
-
-	 							if($date == Date('Y-m-d'))
-
-	 								$row['b_date'] = $time;
-
-	 							else
-
-	 								$row['b_date'] = $date;
-
-	 ?>
+		}else if($video != $str){?>
+			<video style="height:30%; Width:30%;" controls >
+			 <source  src="<?php echo $row['video']?>" type="video/mp4" />
+			</video>
+	<?php	}
+	?>
 
 
 
-	 <h3 id="boardTitle">제목: <?php echo $row['b_title']?>	 </h3>
+
+
+	 <h3 id="boardTitle">제목: <?php echo $row['b_title']?></h3>
+
 	 <div id="boardInfo">
 
 	 <span id="boardDate">작성일: <?php echo $row['b_date']?></span>
@@ -161,10 +152,11 @@
 
 	 </div>
 
-
 	 <div id="boardContent"><?php echo $row['b_contents']?></div>
+
+
 	 <?php
- $str = "./";
+
 	 $img = $row['b_image'];
 	 if($img == $str){
 
@@ -173,21 +165,7 @@
  <?php	}
  ?>
 
- <?php
 
- $video = $row['video'];
- if($video == $str){
-
- }else if($video != $str){?>
-	 <video style="height:30%; Width:30%;" controls >
-		<source  src="<?php echo $row['video']?>" type="video/mp4" />
-	 </video>
-<?php	}
-?>
-		<hr />
-	 <?php
-		}
-		?>
 		</div>
 
   <!-- 풋터 부분은 sns 로그인을위하여 나중에 구현을 위하여 일단은 뺴둔다.
