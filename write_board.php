@@ -1,6 +1,24 @@
 <?php
 	session_start();
-	include "dbconnect.php";
+
+
+	//$_GET['bno']이 있을 때만 $bno 선언
+	// url에 아이디와 번호가 bid라는 걸로 한번에 들어온다.
+  	$bID = $_GET['bid'];
+  //그래서  구분자로 나누어서 받는다.
+
+
+		if(isset($_GET['bno'])) {
+			$bno = $_GET['bno'];
+
+		}
+		if(isset($bno)) {
+
+		 	$con = mysqli_connect("127.0.0.1", "root", "a1214511", "joeltestdb");
+		 	$sql = "SELECT b_title, b_contents, nickname from board where b_no = ". $bno;
+		 					$result = mysqli_query($con, $sql);
+							$row = mysqli_fetch_assoc($result);
+			}
 ?>
 <!DOCTYPE php>
 <php lang="en">
@@ -69,12 +87,7 @@
       <div class="container">
         <a class="navbar-brand" href="index.php">
 					<?php if(isset($_SESSION['testuser'])){
-						$con = mysqli_connect("127.0.0.1", "root", "a1214511", "joeltestdb");
- 						$_nickname = $_SESSION['testuser'];
- 						$sqlquery = "SELECT * FROM login WHERE nickname = '$_nickname'";
- 						$queryresult = mysqli_query($con, $sqlquery);
- 						$row = mysqli_fetch_array($queryresult);
- 						list($param1, $param2) = explode(':', $row['nickname']);
+ 						list($param1, $param2) = explode(':', $_SESSION['testuser']);
  						echo $param2.'님의 블로그';
 	       }else { echo '블로그'; }?></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,10 +100,10 @@
               <a class="nav-link" href="index.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="about.php">About</a>
+              <a class="nav-link" href="about.php">블로그</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="post.php">Sample Post</a>
+              <a class="nav-link" href="post.php">벼룩시장</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="contact.php">Contact</a>
@@ -130,9 +143,14 @@
     		<div class="main" >
     				<div class="w3layouts_main_grid" style="Width: 70%">
     				<h1 class="w3layouts_head">글 작성</h1>
-						<form enctype="multipart/form-data" name="nse" action="write_update.php" method="post">
-								<input type="text" name="b_title" 	placeholder="제목" />
-								<textarea name="ir1" id="ir1" class="nse_content" ></textarea>
+						<form enctype="multipart/form-data" name="nse" action="<?php echo isset($bno)?'write_modify.php':'write_update.php'?>			" method="post">
+							<?php
+								if(isset($bno)) {?>
+								<input type="hidden" name="bno" value= "<?php echo $bno?>" />
+							<?php }
+							?>
+								<input type="text" name="b_title" placeholder="제목" value="<?php echo isset($row['b_title'])?$row['b_title']:null?>" />
+								<textarea name="ir1" id="ir1" class="nse_content" ><?php echo isset($row['b_contents'])?$row['b_contents']:null?> </textarea>
 
 								<script type="text/javascript">
 								var oEditors = [];
@@ -151,15 +169,11 @@
 												elClickedObj.form.submit();
 										} catch(e) {}
 										}
-
 								</script>
 								<!-- <form enctype='multipart/form-data' action='upload_ok.php' method='post'> -->
 										<p>이미지<input type='file'id="b_image" name='b_image'>동영상<input type='file'id="video" name='video' ></p>
-							
-
-
 								<div >
-									<input  type="submit" value="작성완료" onclick="submitContents(this)" />
+									<input  type="submit" value="<?php echo isset($bno)?'수정하기':'작성하기'?>" onclick="submitContents(this)" />
 									<input  type="button" onclick="submitBack()" value="되돌아가기">
 								</div>
 						 <!-- </form> -->
@@ -167,7 +181,6 @@
     					<div class="w3_main_grid">
     						<div class="w3_main_grid_right">
                   <!-- <input type="button" onclick="submitForm()" value="첨부파일" > -->
-
     						</div>
     					</div>
     			</div>

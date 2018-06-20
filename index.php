@@ -6,15 +6,11 @@
 
 <!DOCTYPE php>
 <html>
-
-
   <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>    <?php if(isset($_SESSION['testuser'])){
 			$con = mysqli_connect("127.0.0.1", "root", "a1214511", "joeltestdb");
 			$_nickname = $_SESSION['testuser'];
@@ -24,7 +20,6 @@
 			list($param1, $param2) = explode(':', $row['nickname']);
 			$param2.'님의 블로그';
 		 }else { echo '블로그'; }?></title>
-
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
@@ -61,10 +56,10 @@
               <a class="nav-link" href="index.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="http://13.125.107.155/about.php?<?php echo $_SESSION['testuser']?>">About</a>
+              <a class="nav-link" href="http://13.125.107.155/about.php?<?php echo $_SESSION['testuser']?>">블로그</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="post.php">Sample Post</a>
+              <a class="nav-link" href="post.php">벼룩시장</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="contact.php">Contact</a>

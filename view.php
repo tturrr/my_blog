@@ -15,6 +15,8 @@
 
 	$row = mysqli_fetch_assoc($result)
 
+
+
   ?>
 
 
@@ -62,10 +64,10 @@
               <a class="nav-link" href="index.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="about.php">About</a>
+              <a class="nav-link" href="about.php">블로그</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="post.php">Sample Post</a>
+              <a class="nav-link" href="post.php">벼룩시장</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="contact.php">Contact</a>
@@ -111,9 +113,9 @@
 
 								<!-- <input name="sub" style="margin-left:100%;" type="submit" value="글 작성하기" /> -->
 								<a name="sub"   href="javascript:document.myForm.submit();">추가</a>
-							  <a href="./write.php?bno=<?php echo $bno?>">수정</a>
-								<a href="./delete.php">삭제</a>
-								<a href="./">목록</a>
+							  <a href="./write_board.php?bno=<?php echo $bNo?>">수정</a>
+								<a href="./write_delete.php?bno=<?php echo $bNo?>">삭제</a>
+								<a href="./about.php">목록</a>
 							</form>
 							<?php
             }else {
@@ -126,17 +128,7 @@
     <hr>
 
 		<div>
-		<?php
-		$str = "./";
-		$video = $row['video'];
-		if($video == $str){
 
-		}else if($video != $str){?>
-			<video style="height:30%; Width:30%;" controls >
-			 <source  src="<?php echo $row['video']?>" type="video/mp4" />
-			</video>
-	<?php	}
-	?>
 
 
 
@@ -148,7 +140,7 @@
 
 	 <span id="boardDate">작성일: <?php echo $row['b_date']?></span>
 
-	 <span id="boardHit">조회: <?php echo $row['b_hit']?></span>
+	 <span id="boardHit">조회수: <?php echo $row['b_hit']?></span>
 
 	 </div>
 
@@ -156,7 +148,7 @@
 
 
 	 <?php
-
+$str = "./";
 	 $img = $row['b_image'];
 	 if($img == $str){
 
@@ -164,7 +156,17 @@
 	 <img  src="<?php echo $row['b_image'] ?>"/>
  <?php	}
  ?>
+ <?php
 
+ $video = $row['video'];
+ if($video == $str){
+
+ }else if($video != $str){?>
+	 <video style="height:30%; Width:30%;" controls >
+		<source  src="<?php echo $row['video']?>" type="video/mp4" />
+	 </video>
+<?php	}
+?>
 
 		</div>
 

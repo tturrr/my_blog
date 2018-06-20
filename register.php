@@ -204,10 +204,10 @@
               <a class="nav-link" href="index.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="about.php">About</a>
+              <a class="nav-link" href="about.php">블로그</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="post.php">Sample Post</a>
+              <a class="nav-link" href="post.php">벼룩시장</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="contact.php">Contact</a>
