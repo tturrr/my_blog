@@ -106,7 +106,7 @@
               <a class="nav-link" href="post.php">벼룩시장</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.php">Contact</a>
+              <a class="nav-link" href="http://13.125.107.155:3000/">Contact</a>
             </li>
 						<?php
 						if(isset($_SESSION['testuser'])){
@@ -147,11 +147,12 @@
 							<?php
 								if(isset($bno)) {?>
 								<input type="hidden" name="bno" value= "<?php echo $bno?>" />
-							<?php }
+								<?php $url_page = $_GET['page']; ?>
+								<input type="hidden" name="url_page" value="<?php echo $url_page?>" />
+								<?php }
 							?>
 								<input type="text" name="b_title" placeholder="제목" value="<?php echo isset($row['b_title'])?$row['b_title']:null?>" />
 								<textarea name="ir1" id="ir1" class="nse_content" ><?php echo isset($row['b_contents'])?$row['b_contents']:null?> </textarea>
-
 								<script type="text/javascript">
 								var oEditors = [];
 								nhn.husky.EZCreator.createInIFrame({
@@ -164,14 +165,13 @@
 										// 에디터의 내용이 textarea에 적용됩니다.
 										oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
 										// 에디터의 내용에 대한 값 검증은 이곳에서 document.getElementById("ir1").value를 이용해서 처리하면 됩니다.
-
 										try {
 												elClickedObj.form.submit();
 										} catch(e) {}
 										}
 								</script>
 								<!-- <form enctype='multipart/form-data' action='upload_ok.php' method='post'> -->
-										<p>이미지<input type='file'id="b_image" name='b_image'>동영상<input type='file'id="video" name='video' ></p>
+										<p>이미지<input type='file'id="b_image" name='b_image'/>동영상<input type='file'id="video" name='video'/></p>
 								<div >
 									<input  type="submit" value="<?php echo isset($bno)?'수정하기':'작성하기'?>" onclick="submitContents(this)" />
 									<input  type="button" onclick="submitBack()" value="되돌아가기">

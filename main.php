@@ -147,7 +147,7 @@ session_start();
               <a class="nav-link" href="post.php">벼룩시장</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.php">Contact</a>
+              <a class="nav-link" href="http://13.125.107.155:3000/">Contact</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="main.php">로그인</a>
