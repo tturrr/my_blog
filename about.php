@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	list($subString,$id) = explode(":",$_SESSION['testuser']);
+	list($subString1,$id) = explode(":",$_SESSION['testuser']);
 
 	$con1 = mysqli_connect("127.0.0.1", "root", "a1214511", "joeltestdb");
 	$sql = 'SELECT * from board order by b_no desc ';
@@ -27,7 +27,7 @@
 				?>
 
 			<?php
-				setcookie('about_' . $bno, TRUE, time() + (6600), '/');
+				setcookie('about_' . $bno, TRUE, time() + (12), '/');
 			}
 	}
 		/* 검색 시작 */
@@ -305,75 +305,50 @@ function doDisplay(){
 <div style="display:none;" id="myDIV">
 
 	<?php
-		list($m_page,$subString) = explode("I",$page);
-		$sql = 'SELECT * from comment_free where co_no=co_order and b_no=' . $m_page;
+
+		// $correct_m_page = $page -$page+1
+		$sql = 'SELECT * from comment_free where co_no=co_order and b_no=' . $bno;
 		$result = mysqli_query($con1, $sql);
-		$ro = $row = mysqli_fetch_assoc($result);
-	 $s	=$ro['co_no'];
-	 if($s != 0){
+		// $ro = $row1 = mysqli_fetch_assoc($result);
+ 		// $s	=$ro['co_no'];
+
 		?>
-	<div  id="commentView">
-		<form action="comment_update.php" method="post">
-	<input type="hidden" name="bno" value="<?php echo $bNo?>">
 		<?php
 			while($row = mysqli_fetch_assoc($result)){
 		?>
 		<ul class="oneDepth">
 				<div style="border:1px solid; padding:10px;">
-			 <?php echo $row['co_nickname']?>
+
+				 <?php echo $row['co_nickname']?>
 					<p><?php echo $row['co_content']?></p>
-
-
 				</div>
-				<?php
-					$sql2 = 'SELECT * from comment_free where co_no!=co_order and co_order=' . $row['co_no'];
-					$result2 = mysqli_query($con1, $sql2);
-					while($row2 = mysqli_fetch_assoc($result2)){
-				?>
-				<ul class="twoDepth">
-					<li>
-						<div id="co_<?php echo $row2['co_no']?>" class="commentSet">
-							<div class="commentInfo">
-								<div class="commentId">작성자:  <span class="coId"><?php echo $row2['co_nickname']?></span></div>
-								<div class="commentBtn">
-									<a href="#" class="comt modify">수정</a>
-									<a href="#" class="comt delete">삭제</a>
-								</div>
-							</div>
-							<div class="commentContent"><?php echo $row2['co_content'] ?></div>
-						</div>
-					</li>
-				</ul>
-				<?php
-					}
-				?>
-			</li>
 		</ul>
-		<?php } ?>
-		</form>
-	</div>
-<?php } ?>
+	<?php }
+ ?>
 	<form action="comment_update.php" method="post">
-		<input type="hidden" name="page" value="<?php echo $page?>">
+		<input type="hidden" name="page" value="<?php echo $bno?>">
+		<input type="hidden" name="bno" value="<?php echo $page?>">
 		<input type="hidden" name="conickname" value="<?php echo $id; ?>">
-		<table>
-			<tbody>
-				<tr>
-					<th scope="row"><label for="conickname">아이디 :</label></th>
-					<td><h5><?php echo $id; ?></h5></td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="coContent">내용</label></th>
-					<td><textarea cols="100" rows="5" name="coContent" id="coContent"></textarea></td>
-				</tr>
-			</tbody>
-		</table>
 		<div class="btnSet">
-			<input type="submit" value="댓글 작성">
+			<?php if(isset($_SESSION['testuser'])){?>
+					<table>
+						<tbody>
+							<tr>
+								<th scope="row"><label for="coContent">내용</label></th>
+								<td><textarea style="margin-left:20px;" cols="120" rows="5" name="coContent" id="coContent"></textarea></td>
+							</tr>
+						</tbody>
+					</table>
+							<input style="float:right" type="submit" value="댓글 작성">
+		<?php	 }else{?>
+			<hr />
+		<a href="main.php">댓글을 작성하려면 로그인을 해주세요.</a><?php
+		}
+?>
 		</div>
 	</form>
 </div>
-		<hr />
+		<hr style="margin-top:50px;"/>
 	 <?php
 	 }
 		}

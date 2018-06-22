@@ -1,11 +1,12 @@
 <?php
  session_start();
  $con = mysqli_connect("localhost", "root", "a1214511", "joeltestdb");
+
 	$page = $_POST['page'];
-  list($bNo,$subString) = explode("I",$page);
+  $bNo = $_POST['bno'];
 	$coId = $_POST['conickname'];
 	$coContent = $_POST['coContent'];
-  $sql= "INSERT INTO comment_free (co_no, b_no, co_order, co_content, co_nickname) VALUES (null, '$bNo', null, '$coContent', '$coId')";
+  $sql= "INSERT INTO comment_free (co_no, b_no, co_order, co_content, co_nickname) VALUES (null, '$page', null, '$coContent', '$coId')";
   $result = mysqli_query($con, $sql);
 
 	$coNo = $con->insert_id;
