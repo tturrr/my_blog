@@ -1,8 +1,9 @@
 <?php
 	session_start();
+	list($subString1,$id) = explode(":",$_SESSION['testuser']);
 
 	$con1 = mysqli_connect("127.0.0.1", "root", "a1214511", "joeltestdb");
-	$sql = 'SELECT * from board order by b_no desc ';
+	$sql = 'SELECT * from shop order by b_no desc ';
 	$result = mysqli_query($con1, $sql);
 	$row = mysqli_fetch_assoc($result);
 	/* 페이징 시작 */
@@ -15,8 +16,8 @@
 				$bno = $row['b_no'];
 		}
 		//쿠키를 사용하여 조회수를 올리는 부분.
-		if(!empty($page) && empty($_COOKIE['about_' . $bno])) {
-			$sql = "UPDATE board SET b_hit = b_hit + 1 where b_no =" .$bno;
+		if(!empty($page) && empty($_COOKIE['post_' . $bno])) {
+			$sql = "UPDATE shop SET b_hit = b_hit + 1 where b_no =" .$bno;
 			$result = mysqli_query($con1, $sql);
 			if(empty($result)) {
 				?>
@@ -26,7 +27,7 @@
 				?>
 
 			<?php
-				setcookie('about_' . $bno, TRUE, time() + (60 * 60 * 24), '/');
+				setcookie('post_' . $bno, TRUE, time() + (12), '/');
 			}
 	}
 		/* 검색 시작 */
@@ -45,14 +46,14 @@
 			}
 			/* 검색 끝 */
 		// $sql = 'SELECT count(*) as cnt from board order by b_no desc';
-		$sql = 'SELECT count(*) as cnt from board' . $searchSql;
+		$sql = 'SELECT count(*) as cnt from shop' . $searchSql;
 		$result = mysqli_query($con1, $sql);
 		$row = mysqli_fetch_assoc($result);
 			$allPost = $row['cnt']; //전체 게시글의 수
 			if(empty($allPost)) {
 					$emptyData = '<tr><td class="textCenter" colspan="5">글이 존재하지 않습니다.
 					<br />
-					<a name="sub"   href="http://13.125.107.155/write_board.php?">새로운 글쓰기</a></td></tr>';
+					<a name="sub"   href="http://13.125.107.155/write_shop.php?">새로운 글쓰기</a></td></tr>';
 				} else {
 			$onePage = 1; // 한 페이지에 보여줄 게시글의 수.
 			$allPage = ceil($allPost / $onePage); //전체 페이지의 수
@@ -79,47 +80,32 @@
 	$paging = '<ul style="width:280px; margin:0 auto" class="list-inline text-center">'; // 페이징을 저장할 변수
 	//첫 페이지가 아니라면 처음 버튼을 생성
 	if($page != 1) {
-		$paging .= '<li class="page page_start"><a class="pg_start" href="./about.php?page=1' . $subString . '">처음</a></li>';
+		$paging .= '<li class="page page_start"><a class="pg_start" href="./post.php?page=1' . $subString . '">처음</a></li>';
 	}
 	//첫 섹션이 아니라면 이전 버튼을 생성
 	if($currentSection != 1) {
-	$paging .= '<li class="page page_prev"><a  class="pg_prev" href="./about.php?page=' . $prevPage . $subString . '">이전</a></li>';
+	$paging .= '<li class="page page_prev"><a  class="pg_prev" href="./post.php?page=' . $prevPage . $subString . '">이전</a></li>';
 	}
 	for($i = $firstPage; $i <= $lastPage; $i++) {
 		if($i == $page) {
 			$paging .= '<li class="pg_current">' . $i . '</li>';
 		} else {
-			$paging .= '<li class="page"><a class="pg_page" href="./about.php?page=' . $i . $subString . '">' . $i . '</a></li>';
+			$paging .= '<li class="page"><a class="pg_page" href="./post.php?page=' . $i . $subString . '">' . $i . '</a></li>';
 		}
 	}
 	//마지막 섹션이 아니라면 다음 버튼을 생성
-
 	if($currentSection != $allSection) {
-
-	  $paging .= '<li class="page page_next"><a class="pg_next" href="./about.php?page=' . $nextPage . $subString . '">다음</a></li>';
+	  $paging .= '<li class="page page_next"><a class="pg_next" href="./post.php?page=' . $nextPage . $subString . '">다음</a></li>';
 	}
-
-
-
 	//마지막 페이지가 아니라면 끝 버튼을 생성
-
 	if($page != $allPage) {
-		$paging .= '<li class="page page_end"><a class="pg_end" href="./about.php?page=' . $allPage . $subString . '">끝</a></li>';
+		$paging .= '<li class="page page_end"><a class="pg_end" href="./post.php?page=' . $allPage . $subString . '">끝</a></li>';
 	}
-
 	$paging .= '</ul>';
-
-
-
 	/* 페이징 끝 */
-
 	$currentLimit = ($onePage * $page) - $onePage; //몇 번째의 글부터 가져오는지
-
 	$sqlLimit = ' limit ' . $currentLimit . ', ' . $onePage; //limit sql 구문
-
-
- $sql = 'SELECT * from board' . $searchSql . ' order by b_no desc' . $sqlLimit;//원하는 개수만큼 가져온다. (0번째부터 20번째까지
-
+ $sql = 'SELECT * from shop' . $searchSql . ' order by b_no desc' . $sqlLimit;//원하는 개수만큼 가져온다. (0번째부터 20번째까지
 	$result = mysqli_query($con1, $sql);
 	}
 	?>
@@ -146,6 +132,17 @@
 
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
+		<script>
+		var bDisplay = true;
+function doDisplay(){
+	var con = document.getElementById("myDIV");
+	if(con.style.display=='none'){
+			con.style.display = 'block';
+	}else{
+			con.style.display = 'none';
+	}
+}
+		</script>
 	</head>
 
   <body>
@@ -173,9 +170,13 @@
             <li class="nav-item">
               <a class="nav-link" href="post.php">벼룩시장</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="http://13.125.107.155:3000/">Contact</a>
-            </li>
+						<?php
+						  if(isset($_SESSION['testuser'])){
+								  echo  "<li class='nav-item'><a class='nav-link' href='http://13.125.107.155:3000/'>채팅</a></li> ";
+									  }else {
+											  echo "<li class='nav-item'><a class='nav-link' onclick='chatclick();' href='#'>채팅</a></li> ";
+												    }
+						?>
             <?php
             if(isset($_SESSION['testuser'])){
 
@@ -190,7 +191,7 @@
     </nav>
 
     <!-- Page Header -->
-    <header class="masthead" style="height:50%; width:80%; margin-left: auto;margin-right: auto; background-image: url('img/about-bg.jpg');">
+    <header class="masthead" style="height:50%; width:80%; margin-left: auto;margin-right: auto; background-image: url('img/post-bg.jpg');">
       <div class="overlay"></div>
       <div class="container">
         <div class="row">
@@ -212,7 +213,7 @@
         <div class="col-lg-8 col-md-10 mx-auto">
 					<div class="clear">
 						<div style="margin-left:20%" class="searchBox">
-			<form action="./about.php" method="get">
+			<form action="./post.php" method="get">
 				<select  name="searchColumn">
 					<option <?php echo $searchColumn=='b_title'?'selected="selected"':null?> value="b_title">제목</option>
 					<option <?php echo $searchColumn=='b_contents'?'selected="selected"':null?> value="b_contents">내용</option>
@@ -228,8 +229,6 @@
 
 
 							<?php
-
-
             }else {
 
             }
@@ -237,9 +236,7 @@
         </div>
       </div>
     </div>
-
     <hr>
-
 		<div>
 
 	 <?php
@@ -270,12 +267,12 @@
 
 	 <?php
 	 if(isset($_SESSION['testuser'])){?>
-		 <form name="myForm" style="margin-left:85%;" method="post" action="http://13.125.107.155/write_board.php?<?php echo $_SESSION['testuser']?>">
+		 <form name="myForm" style="margin-left:85%;" method="post" action="http://13.125.107.155/write_shop.php?<?php echo $_SESSION['testuser']?>">
 
 			 <!-- <input name="sub" style="margin-left:100%;" type="submit" value="글 작성하기" /> -->
 			 <a name="sub"   href="javascript:document.myForm.submit();">글쓰기</a>
-			 <a href="./write_board.php?bno=<?php echo $row['b_no'];?>">수정</a>
-			 <a href="./write_delete.php?bno=<?php echo $row['b_no'];?>">삭제</a>
+			 <a href="./write_shop.php?bno=<?php echo $row['b_no'];?>">수정</a>
+			 <a href="./write_delete_shop.php?bno=<?php echo $row['b_no'];?>">삭제</a>
 		 </form>
 		 <?php
 	 }else {
@@ -308,12 +305,63 @@
 	 </video>
 <?php	}
 ?>
-		<hr />
+<div>
+
+						<?php echo $row['b_price']?>원    구매하기
+<a style="margin-left:55%;" href="javascript:doDisplay();">>댓글</a><br/><br/>
+</div>
+<div style="display:none;" id="myDIV">
+
+	<?php
+
+		// $correct_m_page = $page -$page+1
+		$sql = 'SELECT * from comment_free_shop where co_no=co_order and b_no=' . $bno;
+		$result = mysqli_query($con1, $sql);
+		// $ro = $row1 = mysqli_fetch_assoc($result);
+ 		// $s	=$ro['co_no'];
+
+		?>
+		<?php
+			while($row = mysqli_fetch_assoc($result)){
+		?>
+		<ul class="oneDepth">
+				<div style="border:1px solid; padding:10px;">
+
+				 닉네임:<?php echo $row['co_nickname']?>
+					<p><?php echo $row['co_content']?></p>
+				</div>
+		</ul>
+	<?php }
+ ?>
+	<form action="comment_update_shop.php" method="post">
+		<input type="hidden" name="page" value="<?php echo $bno?>">
+		<input type="hidden" name="bno" value="<?php echo $page?>">
+		<input type="hidden" name="conickname" value="<?php echo $id; ?>">
+		<div class="btnSet">
+			<?php if(isset($_SESSION['testuser'])){?>
+					<table>
+						<tbody>
+							<tr>
+								<th scope="row"><label for="coContent">내용</label></th>
+								<td><textarea style="margin-left:20px;" cols="120" rows="5" name="coContent" id="coContent"></textarea></td>
+							</tr>
+						</tbody>
+					</table>
+							<input style="float:right" type="submit" value="댓글 작성">
+		<?php	 }else{?>
+			<hr />
+		<a href="main.php">댓글을 작성하려면 로그인을 해주세요.</a><?php
+		}
+?>
+		</div>
+	</form>
+</div>
+		<hr style="margin-top:50px;"/>
 	 <?php
 	 }
 		}
 		?>
-		</div>
+	</div>
 <?php echo $paging ?>
 <!--  풋터 부분은 sns 로그인을위하여 나중에 구현을 위하여 일단은 뺴둔다. -->
 		 <!-- <footer>
@@ -363,6 +411,11 @@
     location.href='login_action.php?logout=yes';
     }
     </script>
+		<script>
+			function chatclick(){
+				alert('로그인을 해야 채팅을 하실 수 있습니다.');
+			}
+		</script>
   </body>
 
 </php>

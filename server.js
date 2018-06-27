@@ -1,7 +1,11 @@
+
+
 var express = require('express');
 var app = express();
+var path = require('path');
 var http = require('http').Server(app); //1
 var io = require('socket.io')(http);    //1
+app.use(express.static('vendor'));
 
 app.get('/',function(req, res){  //2
   res.sendFile(__dirname + '/client.html');

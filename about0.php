@@ -6,7 +6,6 @@
 	$sql = 'SELECT * from board order by b_no desc ';
 	$result = mysqli_query($con1, $sql);
 	$row = mysqli_fetch_assoc($result);
-
 	/* 페이징 시작 */
 		//페이지 get 변수가 있다면 받아오고, 없다면 1페이지를 보여준다.
 		if(isset($_GET['page'])) {
@@ -171,13 +170,9 @@ function doDisplay(){
             <li class="nav-item">
               <a class="nav-link" href="post.php">벼룩시장</a>
             </li>
-						<?php
-						  if(isset($_SESSION['testuser'])){
-								  echo  "<li class='nav-item'><a class='nav-link' href='http://13.125.107.155:3000/'>채팅</a></li> ";
-									  }else {
-											  echo "<li class='nav-item'><a class='nav-link' onclick='chatclick();' href='#'>채팅</a></li> ";
-												    }
-						?>
+            <li class="nav-item">
+              <a class="nav-link" href="http://13.125.107.155:3000/">Contact</a>
+            </li>
             <?php
             if(isset($_SESSION['testuser'])){
 
@@ -324,7 +319,7 @@ function doDisplay(){
 		<ul class="oneDepth">
 				<div style="border:1px solid; padding:10px;">
 
-				 닉네임:<?php echo $row['co_nickname']?>
+				 <?php echo $row['co_nickname']?>
 					<p><?php echo $row['co_content']?></p>
 				</div>
 		</ul>
@@ -408,11 +403,6 @@ function doDisplay(){
     location.href='login_action.php?logout=yes';
     }
     </script>
-		<script>
-			function chatclick(){
-				alert('로그인을 해야 채팅을 하실 수 있습니다.');
-			}
-		</script>
   </body>
 
 </php>

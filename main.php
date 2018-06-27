@@ -146,12 +146,21 @@ session_start();
             <li class="nav-item">
               <a class="nav-link" href="post.php">벼룩시장</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="http://13.125.107.155:3000/">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="main.php">로그인</a>
-            </li>
+            <?php
+						  if(isset($_SESSION['testuser'])){
+								  echo  "<li class='nav-item'><a class='nav-link' href='http://13.125.107.155:3000/'>채팅</a></li> ";
+									  }else {
+											  echo "<li class='nav-item'><a class='nav-link' onclick='chatclick();' href='#'>채팅</a></li> ";
+												    }
+						?>
+            <?php
+            if(isset($_SESSION['testuser'])){
+
+              echo  "<li class='nav-item'><a class='nav-link' onclick='logout();' href='#'>로그아웃</a></li> ";
+            }else {
+              echo "<li class='nav-item'><a class='nav-link' href='main.php'>로그인</a></li> ";
+            }
+              ?>
           </ul>
         </div>
       </div>
@@ -308,8 +317,16 @@ session_start();
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery.backstretch.min.js"></script>
     <script src="assets/js/scripts.js"></script>
-
-
+    <script>
+    function logout(){
+    location.href='login_action.php?logout=yes';
+    }
+    </script>
+    <script>
+      function chatclick(){
+        alert('로그인을 해야 채팅을 하실 수 있습니다.');
+      }
+    </script>
   </body>
 
 </php>
