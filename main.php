@@ -148,8 +148,8 @@ session_start();
             </li>
             <?php
 						  if(isset($_SESSION['testuser'])){
-								  echo  "<li class='nav-item'><a class='nav-link' href='http://13.125.107.155:3000/'>채팅</a></li> ";
-									  }else {
+								  echo  "<li class='nav-item'><a class='nav-link' href='http://13.125.107.155:3000/?id=$param2'>채팅</a></li> ";
+										}else {
 											  echo "<li class='nav-item'><a class='nav-link' onclick='chatclick();' href='#'>채팅</a></li> ";
 												    }
 						?>

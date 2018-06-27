@@ -16,7 +16,6 @@
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
       <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
-
     <title>Chat</title>
     <style>
       .chat_log{ width: 95%; height: 200px; }
@@ -24,6 +23,15 @@
       .message{ width: 70%; }
       .chat{ width: 10%; }
     </style>
+    <script language="javascript">
+      var urlParams = location.search.split(/[?&]/).slice(1).map(function(paramPair) {
+          return paramPair.split(/=(.+)?/).slice(0, 2);
+      }).reduce(function(obj, pairArray) {
+          obj[pairArray[0]] = pairArray[1];
+          return obj;
+      }, {});
+      var userName = urlParams.id;
+  </script>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
@@ -58,7 +66,7 @@
       <textarea id="chatLog" class="chat_log" readonly></textarea>
     </div>
     <form id="chat">
-      <input id="name" class="name" type="text" readonly>
+      <input id="name" class="name" type="text"  readonly>
       <input id="message" class="message" type="text">
       <input type="submit" class="chat" value="chat"/>
     </form>
@@ -83,7 +91,7 @@
         $('#chatLog').scrollTop($('#chatLog')[0].scrollHeight);
       });
       socket.on('change name', function(name){ //4
-        $('#name').val(name);
+        $('#name').val(userName);
       });
     </script>
 
