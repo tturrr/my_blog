@@ -1,22 +1,31 @@
 var express = require('express');
-var routes = require('./routes');
-var http = require('http');
-var path = require('path');
-
 var app = express();
-app.use(express.static(path.join(__dirname,'vendor')));
+var path = require('path');
+var http = require('http').Server(app); //1
+var io = require('socket.io')(http);    //1
+app.use(express.static('vendor'));
 
-var httpServer = http.createServer(app).listen(3000, function(req,res){
-  console.log('Socket IO server has been started');
+app.get('/',function(req, res){  //2
+  res.sendFile(__dirname + '/client.html');
 });
 
-var io = require('socket.io').listen(httpServer);
+var count=1;
+io.on('connection', function(socket){ //3
+  console.log('user connected: ', socket.id);  //3-1
+  var name = "user" + count++;                 //3-1
+  io.to(socket.id).emit('change name',name);   //3-1
 
-io.sockets.on('connection',function(socket){
-  socket.emit('toclient', {msg:'Welcome !'});
-  socket.on('fromclient',function(data){
-    socket.broadcast.emit('toclient',data);
-    socket.emit('toclient',data);
-    console.log('Message from client :'+data.msg);
-  })
+  socket.on('disconnect', function(){ //3-2
+    console.log('user disconnected: ', socket.id);
+  });
+
+  socket.on('send message', function(name,text){ //3-3
+    var msg = name + ' : ' + text;
+    console.log(msg);
+    io.emit('receive message', msg);
+  });
+});
+
+http.listen(3000, function(){ //4
+  console.log('server on!');
 });

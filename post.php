@@ -132,6 +132,8 @@
 
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+		<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 		<script>
 		var bDisplay = true;
 function doDisplay(){
@@ -306,8 +308,17 @@ function doDisplay(){
 <?php	}
 ?>
 <div>
+						<?php echo $row['b_price']?>원
 
-						<?php echo $row['b_price']?>원    구매하기
+						<?php	if(isset($_SESSION['testuser'])){ ?>
+						<h4> <a href='payment.php'>구매하기</a>
+						 <a href='shoppingBasket.php'>장바구니</a></h4>
+					 <?php }else{ ?>
+						 <h4> <a href='#' onclick="chatclick();">구매하기</a>
+							<a href='#' onclick="chatclick();" >장바구니</a></h4>
+					<?php } ?>
+
+
 <a style="margin-left:55%;" href="javascript:doDisplay();">>댓글</a><br/><br/>
 </div>
 <div style="display:none;" id="myDIV">
@@ -413,9 +424,10 @@ function doDisplay(){
     </script>
 		<script>
 			function chatclick(){
-				alert('로그인을 해야 채팅을 하실 수 있습니다.');
+				alert('로그인을 먼저 해주세요.');
+				location.href='main.php'
 			}
-		</script>
+		</script> 
   </body>
 
 </php>
