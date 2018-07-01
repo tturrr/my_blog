@@ -249,7 +249,7 @@
                 <div class="w3_agileits_main_grid w3l_main_grid">
                   <span class="agileits_grid">
                     <label>이메일 <span class="star">*</span></label>
-                    <input id="emailid" type="text" name="personalemailid" value="">@<input  type="text" name="emailcompany" value="" style="margin-left:131px">
+                    <input id="emailid" type="text" name="personalemailid" value="">@<input  type="text" name="emailcompany" value="" style="margin-left:28%">
                   </span>
                 </div>
                 <div class="w3_agileits_main_grid w3l_main_grid">

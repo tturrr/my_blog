@@ -427,7 +427,7 @@ function doDisplay(){
 				alert('로그인을 먼저 해주세요.');
 				location.href='main.php'
 			}
-		</script> 
+		</script>
   </body>
 
 </php>
