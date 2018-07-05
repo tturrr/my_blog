@@ -182,7 +182,6 @@ function doDisplay(){
 						?>
             <?php
             if(isset($_SESSION['testuser'])){
-
               echo  "<li class='nav-item'><a class='nav-link' onclick='logout();' href='#'>로그아웃</a></li> ";
             }else {
               echo "<li class='nav-item'><a class='nav-link' href='main.php'>로그인</a></li> ";

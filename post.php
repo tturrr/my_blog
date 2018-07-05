@@ -113,6 +113,9 @@
 <!DOCTYPE php>
 <php lang="en">
 
+
+
+
   <head>
 
     <meta charset="utf-8">
@@ -145,6 +148,11 @@ function doDisplay(){
 	}
 }
 		</script>
+		<style>
+		    .font_test1 { text-decoration:underline }
+		    .font_test2 { text-decoration:overline }
+		    .font_test3 { text-decoration:line-through }
+		</style>
 	</head>
 
   <body>
@@ -152,20 +160,18 @@ function doDisplay(){
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="index.php">
+        <a class="navbar-brand" href="about.php">
           <?php if(isset($_SESSION['testuser'])){
 						list($param1, $param2) = explode(':', $_SESSION['testuser']);
-						echo $param2.'님의 블로그';
-       }else { echo '블로그'; }?></a>
+						echo '벼룩시장';
+       }else { echo '벼룩시장'; }?></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.php">Home</a>
-            </li>
+
             <li class="nav-item">
               <a class="nav-link" href="about.php">블로그</a>
             </li>
@@ -273,8 +279,7 @@ function doDisplay(){
 
 			 <!-- <input name="sub" style="margin-left:100%;" type="submit" value="글 작성하기" /> -->
 			 <a name="sub"   href="javascript:document.myForm.submit();">글쓰기</a>
-			 <a href="./write_shop.php?bno=<?php echo $row['b_no'];?>">수정</a>
-			 <a href="./write_delete_shop.php?bno=<?php echo $row['b_no'];?>">삭제</a>
+
 		 </form>
 		 <?php
 	 }else {
@@ -308,18 +313,33 @@ function doDisplay(){
 <?php	}
 ?>
 <div>
-						<?php echo $row['b_price']?>원
+						<?php if($row['b_price'] == null){
 
-						<?php	if(isset($_SESSION['testuser'])){ ?>
-						<h4> <a href='payment.php'>구매하기</a>
-						 <a href='shoppingBasket.php'>장바구니</a></h4>
-					 <?php }else{ ?>
+						}else{
+						echo $row['b_price']?>원
+					<?php	} ?>
+
+						<?php	if(isset($_SESSION['testuser']) && "매진 되었습니다." == $row['b_title'] ){ ?>
+						<h4> <a style="text-decoration:line-through" onclick="sold();">구매하기</a>
+
+
+					 <?php }else if(isset($_SESSION['testuser']) &&  "매진 되었습니다." != $row['b_title'] ){ ?>
+						 	<form action="payment.php" method="post">
+								<input type="hidden" name="b_no" value="<?php echo $row['b_no']; ?>">
+									<input type="hidden" name="b_title" value="<?php echo $row['b_title']; ?>">
+										<input type="hidden" name="b_price" value="<?php echo $row['b_price']; ?>">
+										<input type="submit" value="구매하기" />
+							</form>
+
+				<?php	 }
+
+					 else{ ?>
 						 <h4> <a href='#' onclick="chatclick();">구매하기</a>
-							<a href='#' onclick="chatclick();" >장바구니</a></h4>
+
 					<?php } ?>
 
 
-<a style="margin-left:55%;" href="javascript:doDisplay();">>댓글</a><br/><br/>
+<a style="margin-left:94%;" href="javascript:doDisplay();">>댓글</a><br/><br/>
 </div>
 <div style="display:none;" id="myDIV">
 
@@ -330,7 +350,6 @@ function doDisplay(){
 		$result = mysqli_query($con1, $sql);
 		// $ro = $row1 = mysqli_fetch_assoc($result);
  		// $s	=$ro['co_no'];
-
 		?>
 		<?php
 			while($row = mysqli_fetch_assoc($result)){
@@ -427,7 +446,9 @@ function doDisplay(){
 				alert('로그인을 먼저 해주세요.');
 				location.href='main.php'
 			}
+			function sold() {
+				alert("매진 되었습니다.");
+			}
 		</script>
   </body>
-
 </php>

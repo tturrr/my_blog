@@ -122,7 +122,7 @@ session_start();
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="index.php">
+        <a class="navbar-brand" href="about.php">
           <?php if(isset($_SESSION['testuser'])){
             $_nickname = $_SESSION['testuser'];
              $sqlquery = "SELECT * FROM login WHERE nickname = '$_nickname'";
@@ -137,9 +137,6 @@ session_start();
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.php">Home</a>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href="about.php">블로그</a>
             </li>

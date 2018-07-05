@@ -1,5 +1,11 @@
 <?php
 	session_start();
+	$nickname = $_SESSION['testuser'];
+
+	$con1 = mysqli_connect("127.0.0.1", "root", "a1214511", "joeltestdb");
+	$sql = "SELECT * FROM login WHERE nickname = '{$nickname}'";
+	$result = mysqli_query($con1, $sql);
+	$row = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE php>
 <php lang="en">
@@ -11,7 +17,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>회원가입</title>
+    <title>구매정보</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -29,6 +35,18 @@
     Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
     		function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+				<script>
+				function submitBack(){
+
+					// To make sure, to let this user to be reached to the default main page.
+
+
+				history.back();
+
+				}
+				</script>
+
     <!-- //for-mobile-apps -->
 
     <!-- //custom-theme -->
@@ -42,149 +60,7 @@
     <!-- google fonts -->
     <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
     <!-- google fonts -->
-    <script>
 
-
-
-    function checkPassword(){
-
-    	var p1 = document.getElementById("personalPwd");
-
-    	var p2 = document.getElementById("personalPwdvalidate");
-
-    	if(p1.value != p2.value)	return false;
-
-    	else	return true;
-
-    }
-
-
-
-    function submitBack(){
-
-    	// To make sure, to let this user to be reached to the default main page.
-
-    	<?php
-
-    		session_unset();
-
-    	?>
-
-    	location.href='main.php';
-
-    }
-
-
-
-    function submitForm(){
-
-    	// 1. Check whether the email info is valid.
-
-    	// 2. Check if the id info is not empty.
-
-    	// 3. Check the password that the value what user want to use.
-
-    	var _submit = document.getElementById("membershipform");
-
-
-    	null_isthere = -1;
-
-    	for(var i=0; i < _submit.length; i++){
-
-    		if("" == _submit.elements[i].value)
-
-    			null_isthere = i;
-
-    	}
-
-    	if("-1" != null_isthere){
-
-    		switch(null_isthere){
-
-    		case 0:
-
-    			alert("이메일을 입력해 주세요");
-
-    			break;
-
-    		case 1:
-
-    			alert("이메일 정보를 입력해 주세요");
-
-    			break;
-
-    		case 2:
-
-    			alert("아이디를 입력해 주세요");
-
-    			break;
-
-    		case 3:
-
-    			alert("비밀번호를 입력해 주세요");
-
-    			break;
-
-    		case 4:
-
-    			alert("비밀번호를 다시 한번 더 입력 해 주세요");
-
-    			break;
-
-    		}
-
-    	}else{
-
-    		if(checkPassword())
-
-    			_submit.submit();
-
-    		else
-
-    			alert("비밀번호를 확인해 주세요")
-
-    	}
-
-    }
-
-
-
-    function checkDupID()
-
-    {
-
-
-
-    	var p1 = document.getElementById("personalNickname");
-
-    	if(!p1.value){
-
-    		alert("사용하실 아이디를 입력해 주세요.");
-
-    		p1.focus();
-
-    		return;
-
-    	}else{
-
-
-    		ref = "idcheck.php";
-
-    		ref = ref + "?checkid=ID:"+p1.value;
-
-    		var window_left = (screen.width - 640)/2;
-
-    		var window_top = (screen.height  - 480)/2;
-
-    		//window.open(ref);
-
-    		window.open(ref, "checkIDWin", 'width=500, height=160, status=no, top='+window_top+', left='+window_left+'');
-
-    	}
-
-    }
-
-    </script>
 
   </head>
 
@@ -193,16 +69,13 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="index.php">myBlog</a>
+        <a class="navbar-brand" href="about.php">구매정보</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.php">Home</a>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href="about.php">블로그</a>
             </li>
@@ -216,9 +89,14 @@
 											  echo "<li class='nav-item'><a class='nav-link' onclick='chatclick();' href='#'>채팅</a></li> ";
 												    }
 						?>
-            <li class="nav-item">
-              <a class="nav-link" href="main.php">로그인</a>
-            </li>
+						<?php
+						if(isset($_SESSION['testuser'])){
+
+							echo  "<li class='nav-item'><a class='nav-link' onclick='logout();' href='#'>로그아웃</a></li> ";
+						}else {
+							echo "<li class='nav-item'><a class='nav-link' href='main.php'>로그인</a></li> ";
+						}
+							?>
           </ul>
         </div>
       </div>
@@ -244,34 +122,36 @@
     	<div class="banner-dott">
     		<div class="main" >
     				<div class="w3layouts_main_grid" >
-    				<h1 class="w3layouts_head">회원가입</h1>
-    					<form id="membershipform" align="left" action="http://13.125.107.155/membership_welcome.php?login=yes" method="post">
-                <div class="w3_agileits_main_grid w3l_main_grid">
+    				<h1 class="w3layouts_head">구매정보</h1>
+    					<form  align="left" action="result.php" method="post">
+								<div class="w3_agileits_main_grid w3l_main_grid">
+									<span class="agileits_grid">
+										<label>성함 <span class="star">*</span></label>
+										<input id="name" type="text" name="p_name" required="">
+									</span>
+								</div>
+								<div class="w3_agileits_main_grid w3l_main_grid">
                   <span class="agileits_grid">
                     <label>이메일 <span class="star">*</span></label>
-                    <input id="emailid" type="text" name="personalemailid" value="">@<input  type="text" readonly name="emailcompany" value="" style="margin-left:28%">
+                    <input id="emailid" type="text" name="p_mail" value="<?php echo $row['email']?>">
+										<input type="hidden" name="b_no" value="<?php echo $_POST['b_no']?>">
                   </span>
                 </div>
-                <div class="w3_agileits_main_grid w3l_main_grid">
-    							<span class="agileits_grid">
-    								<label>닉네임 <span class="star">*</span></label>
-    							</span>
-    						</div>
-                <div class="w3_agileits_main_grid w3l_main_grid">
+								<div class="w3_agileits_main_grid w3l_main_grid">
+									<span class="agileits_grid">
+										<label>휴대폰번호 <span class="star">*</span></label>
+									<input type="text" name="cellPhone" id="cellPhone" placeholder="핸드폰 번호 입력" maxlength="13" />
+									</span>
+								</div>
+              <div class="w3_agileits_main_grid w3l_main_grid">
                   <span class="agileits_grid">
-                    <label>비밀번호 <span class="star">*</span></label>
-                    <input type="password" name="pwd"  id="personalPwd" required="">
-                  </span>
-                </div>
-                <div class="w3_agileits_main_grid w3l_main_grid">
-                  <span class="agileits_grid">
-                    <label>비밀번호 확인<span class="star">*</span></label>
-                    <input type="password" name="pwdvalidate" id="personalPwdvalidate" required="">
+                    <label>배송메세지<span class="star"></span></label>
+                    <input type="text"  name="pwdvalidate" id="personalPwdvalidate" >
                   </span>
                 </div>
     						<div class="w3_agileits_main_grid w3l_main_grid">
     							<span class="agileits_grid">
-    								<label>주소<span class="star">*</span></label>
+    								<label>배송주소<span class="star">*</span></label>
     									<div class="form-input add">
     										<span class="form-sub-label line1">
     											<input type="text" id="first_address" name="street_address"  required="" onclick="address()">
@@ -282,15 +162,25 @@
     										</span>
     										<div class="clear"></div>
     									</div>
+											<div class="w3_agileits_main_grid w3l_main_grid">
+													<span class="agileits_grid">
+														<label>상품 정보<span class="star"></span></label>
+														<input type="text" name="b_title" value="<?php echo $_POST['b_title'];?>" id="personalPwdvalidate" readonly required="">
+													</span>
+												</div>
+											<div class="w3_agileits_main_grid w3l_main_grid">
+													<span class="agileits_grid">
+														<label>상품 가격<span class="star"></span></label>
+														<input type="text" name="b_price" value="<?php echo $_POST['b_price'];?>" id="personalPwdvalidate" readonly required="">
+													</span>
+												</div>
     									<div class="clear"></div>
     							</span>
     						</div>
-                </form>
-
-
     					<div class="w3_main_grid">
     						<div class="w3_main_grid_right">
-                  <input type="button" onclick="submitForm()" value="가입하기" >
+                  <input type="submit" value="구매하기" >
+									  </form>
                   <input type="button" onclick="submitBack()" value="되돌아가기">
     						</div>
     					</div>
@@ -363,10 +253,8 @@
     <script>
     function  email_chk(){
 var email = $('#email').val();
-
 var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 // 검증에 사용할 정규식 변수 regExp에 저장
-
 if (email.match(regExp) != null) {
   alert("이메일이 발송되었습니다.");
   node node.js
@@ -374,19 +262,47 @@ if (email.match(regExp) != null) {
 else {
         alert("이메일을 다시 입력해주세요.")
 }
-
-
-
     }
     </script>
 		<script>
 			function chatclick(){
 				alert('로그인을 해야 채팅을 하실 수 있습니다.');
 			}
+
+			function autoHypenPhone(str){
+            str = str.replace(/[^0-9]/g, '');
+            var tmp = '';
+            if( str.length < 4){
+                return str;
+            }else if(str.length < 7){
+                tmp += str.substr(0, 3);
+                tmp += '-';
+                tmp += str.substr(3);
+                return tmp;
+            }else if(str.length < 11){
+                tmp += str.substr(0, 3);
+                tmp += '-';
+                tmp += str.substr(3, 3);
+                tmp += '-';
+                tmp += str.substr(6);
+                return tmp;
+            }else{
+                tmp += str.substr(0, 3);
+                tmp += '-';
+                tmp += str.substr(3, 4);
+                tmp += '-';
+                tmp += str.substr(7);
+                return tmp;
+            }
+            return str;
+        }
+
+var cellPhone = document.getElementById('cellPhone');
+cellPhone.onkeyup = function(event){
+        event = event || window.event;
+        var _val = this.value.trim();
+        this.value = autoHypenPhone(_val) ;
+}
 		</script>
-
-
-
-
   </body>
 </php>

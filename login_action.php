@@ -67,7 +67,7 @@ function CHECKCODE()
 			window.open(ref, "가입_확인_진행", 'width=500, height=160, status=no, top='+window_top+', left='+window_left+'');
 
 			location.href='main.php';
-	
+
 		} else {
 
 			alert("인증 코드가 맞지 않습니다. 다시 확인해 주세요");
@@ -167,7 +167,7 @@ function CHECKCODE()
 			{
 				// 1: Log in OK.
 				$_SESSION['testuser'] = $row['nickname'];
-				echo "<script>location.href='index.php';</script>";
+				echo "<script>location.href='about.php';</script>";
 			} else {
 				// Log in 하기 위한 bVerified 값 갱신을 위해 인증 코드 확인 진행.
 				$confirmcodeinDB = $row['seed'];
