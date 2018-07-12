@@ -1,8 +1,6 @@
 <?php
 	session_start();
 	$id = $_SESSION['testuser'];
-	$start = $_POST['start'];
-	$list = $_POST['list'];
 ?>
 <!DOCTYPE php>
 <php lang="en">
@@ -30,7 +28,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Electrical Service Form Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
     Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-  
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+    		function hideURLbar(){ window.scrollTo(0,1); } </script>
     <!-- //for-mobile-apps -->
 
     <!-- //custom-theme -->
@@ -38,21 +37,7 @@
 
     <!-- js -->
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-		<script type="text/javascript" src="PurchaseListAdd.js"></script>
-		<script>
-			$(function(e){
-				append_list();
-				//스크롤 이벤트;
-				$(window).scroll(function(){
-					var dh = $(document).height();
-					var wh = $(window).height();
-					var wt = $(window).scrollTop();
-					if(dh == (wh + wt)){
-						append_list();
-					}
-				});
-			});
-		</script>
+
     <!-- //js -->
 
     <!-- google fonts -->
@@ -140,49 +125,42 @@
     				<div class="w3layouts_main_grid" style="width:100%" >
     				<h1 class="w3layouts_head">구매내역</h1>
 							<div class="title">
-									<h2 style="color: #000;">상품이미지</h2>
+								<?php
+								$con1 = mysqli_connect("127.0.0.1", "root", "a1214511", "joeltestdb");
+								$sql = "SELECT b_image, b_price, b_date, b_title FROM PurchaseId WHERE nickname ='{$id}'";
+								$result = mysqli_query($con1, $sql);
+									?>
+
+								<table border="10" style="width:100%">
+									<tr>
+										<th>상품이미지</th>
+										<th style="padding-left:20%">상품명</th>
+										<th style="padding-left:15%">상품가격</th>
+										<th style="padding-left:20%">결제일</th>
+									</tr>
+									<?php
+									while($row = mysqli_fetch_assoc($result)) {
+									?>
+									<tr>
+										<td  style="width:10%; height:10%;">	<?php if($row['b_image'] == "./"){ ?>
+														<img  src="noimage.png"/>
+										<?php	} else { ?>
+													<img   src="<?php echo $row['b_image'];?>"/>
+									<?php	} ?></td>
+										<td style="padding-left:20%">		<span><?php echo $row['b_title'];?>	 </span></td>
+										<td style="padding-left:15%">	<span ><?php echo $row['b_price'];?> 원</span></td>
+										<td style="padding-left:20%">	<span ><?php echo $row['b_date'];?></span></td>
+									</tr>
+								<?php			}
+								?>
+								</table>
+									<!-- <h2 style="color: #000;">상품이미지</h2>
 											<h2 style="color: #000; margin-left:20%;">상품명</h2>
 												<h2 style="color: #000; margin-left:19.5%;">상품가격</h2>
-													<h2 style="color: #000; margin-left:16%;">결제일</h2>
+													<h2 style="color: #000; margin-left:16%;">결제일</h2> -->
 							</div>
-						<?php
-						$con1 = mysqli_connect("127.0.0.1", "root", "a1214511", "joeltestdb");
-						$sql = "SELECT b_image, b_price, b_date, b_title FROM PurchaseId WHERE nickname ='{$id}' order by b_date desc" ;
-						$result = mysqli_query($con1, $sql);
-							?>
-							<?php
-							while($row = mysqli_fetch_assoc($result)) {
-							?>
-							<div id="js-load"class="js-load" style='display:inline;min-width:100%;'><!--빨간 부분-->
-
-							<div class="lists__item js-load" style='display:inline;float:left;width:25%'>
-								<?php if($row['b_image'] == "./"){ ?>
-											<img style="width:40%; height:14%;"  src="noimage.png"/>
-							<?php	} else { ?>
-										<img style="width:40%; height:14%;"  src="<?php echo $row['b_image'];?>"/>
-						<?php	} ?>
 
 
-							</div> <!--파란부분-->
-							<div class="lists__item js-load" style='display:inline;float:left;width:25%'>
-									<span style="margin-left:22%;"><?php echo $row['b_title'];?>	 </span>
-							</div> <!--연두부분 -->
-							<div class="lists__item js-load" style='display:inline;float:left;width:25%'>
-									<span style="margin-left:26%"><?php echo $row['b_price'];?> 원</span>
-							</div> <!--연두부분 -->
-							<div class="lists__item js-load" style='display:inline;float:left;width:25%'>
-								<span style="margin-left:23%"><?php echo $row['b_date'];?></span>
-							</div> <!--연두부분 -->
-							<div class="contents" align="center" style="border: 1px solid #48BAE4; height: 100px;">
-											</div>
-								 <?php			}
-									?>
-									<table>
-										<tbody id="appendbox">
-										</tbody>
-									</table>
-
-							</div>
 
 
 
@@ -209,7 +187,6 @@
 			function chatclick(){
 				alert('로그인을 해야 채팅을 하실 수 있습니다.');
 			}
-
 			$(window).on('load', function () {
 	    load('#js-load', '1');
 	    $("#js-btn-wrap .button").on("click", function () {
